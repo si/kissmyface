@@ -445,10 +445,18 @@ class PlaceHolder extends \seydoggy\SimpleImage
 	 */
 	private function showFormat()
 	{
-		return "<p>Please enter at URI that contains at least a width and height parameter, like so:
-				<p><a href=\"400-300\">".$_SERVER['HTTP_HOST']."/400-300</a>
-				<p>Or for more excitement, try an additional parameter such as 'bw', 'sepia', 'sketch', 'pixelate' or 'random':
-				<p><a href=\"400-300-random\">".$_SERVER['HTTP_HOST']."/400-300-random</a>";
+		return "<p>Please enter at URI that contains at least a width and height parameter, like so:</p>
+				<figure>
+					<img src='/400-300'/>
+					<figcaption><a href=\"400-300\">".$_SERVER['HTTP_HOST']."/400-300</a></figcaption>
+				</figure>
+				<p>Or for more excitement, try an additional parameter such as 
+					<a href=\"400-300-bw\"><samp>bw</samp></a>, 
+					<a href=\"400-300-sepia\"><samp>sepia</samp></a>, 
+					<a href=\"400-300-sketch\"><samp>sketch</samp></a>, 
+					<a href=\"400-300-pixelate\"><samp>pixelate</samp></a> or 
+					<a href=\"400-300-random\"><samp>random</samp></a>.</p>
+				";
 	}
 
 	/**
@@ -463,20 +471,20 @@ class PlaceHolder extends \seydoggy\SimpleImage
 		$content = '';
 		switch ($message) {
 			case 'path':
-				$content = "Sorry Dave, I cannot find or write to the images folder with the path:
+				$content = "Sorry Dan, I cannot find or write to the images folder with the path:
 						<p>\"$this->imageFolder\".
 						<p>Please check your spelling and/or permissions and try again.";
 				break;
 			
 			case 'param':
-				$content = "<p>Sorry Dave, I can't do that.";
+				$content = "<p>Sorry Dan, I can't do that.";
 				
 				$content .= $this->showFormat();
 
 				break;
 
 			case 'nan':
-				$content = "<p>Sorry Dave, ";
+				$content = "<p>Sorry Dan, ";
 
 				if (!is_numeric($this->parameters[0]) && !is_numeric($this->parameters[1])) {
 					
@@ -505,7 +513,7 @@ class PlaceHolder extends \seydoggy\SimpleImage
 				break;
 
 			case 'min':
-				$content .= "<p>Sorry Dave, ";
+				$content .= "<p>Sorry Dan, ";
 
 				if ($this->parameters[0] < 16 && $this->parameters[1] < 16) {
 					
@@ -530,7 +538,7 @@ class PlaceHolder extends \seydoggy\SimpleImage
 				break;
 
 			default:
-				$content .= "<p>Sorry Dave, the door is ajar.
+				$content .= "<p>Sorry Dan, the door is ajar.
 						<p>If you do not try to hold your breath, exposure to space for approximately 30 seconds is unlikely to produce permanent injury. Holding your breath, however, is likely to damage your lungs and you'll have eardrum trouble if your Eustachian tubes are badly plugged up.
 						<p>Theory predicts -- and my own human testing with the last crew confirms -- that exposure to vacuum causes no immediate injury. You will not explode. Your blood will not boil. You will not freeze. You will not instantly lose consciousness.
 						<p>After 30 seconds, however, you will die a slow, silent death of unimaginable peace and tranquility.";
