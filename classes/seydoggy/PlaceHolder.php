@@ -445,7 +445,7 @@ class PlaceHolder extends \seydoggy\SimpleImage
 	 */
 	private function showFormat()
 	{
-		echo "<p>Please enter at URI that contains at least a width and height parameter, like so:
+		return "<p>Please enter at URI that contains at least a width and height parameter, like so:
 				<p><a href=\"400-300\">".$_SERVER['HTTP_HOST']."/400-300</a>
 				<p>Or for more excitement, try an additional parameter such as 'bw', 'sepia', 'sketch', 'pixelate' or 'random':
 				<p><a href=\"400-300-random\">".$_SERVER['HTTP_HOST']."/400-300-random</a>";
@@ -459,80 +459,85 @@ class PlaceHolder extends \seydoggy\SimpleImage
 	 */
 	private function showMessage($message)
 	{
+
+		$content = '';
 		switch ($message) {
 			case 'path':
-				echo "Sorry Dave, I cannot find or write to the images folder with the path:
+				$content = "Sorry Dave, I cannot find or write to the images folder with the path:
 						<p>\"$this->imageFolder\".
 						<p>Please check your spelling and/or permissions and try again.";
 				break;
 			
 			case 'param':
-				echo "<p>Sorry Dave, I can't do that.";
+				$content = "<p>Sorry Dave, I can't do that.";
 				
-				$this->showFormat();
+				$content .= $this->showFormat();
 
 				break;
 
 			case 'nan':
-				echo "<p>Sorry Dave, ";
+				$content = "<p>Sorry Dave, ";
 
 				if (!is_numeric($this->parameters[0]) && !is_numeric($this->parameters[1])) {
 					
-					echo "\"<em>" . $this->parameters[0] . "</em>\" and \"<em>" . $this->parameters[1] . "</em>\" are not numbers.";
+					$content .= "\"<em>" . $this->parameters[0] . "</em>\" and \"<em>" . $this->parameters[1] . "</em>\" are not numbers.";
 							
 				} else {
 
 					if (!is_numeric($this->parameters[0]) && is_numeric($this->parameters[1])) {
 					
-						echo "\"<em>" . $this->parameters[0] . "</em>\"";
+						$content .= "\"<em>" . $this->parameters[0] . "</em>\"";
 
 					} else {
 
-						echo "\"<em>" . $this->parameters[1] . "</em>\"";
+						$content .= "\"<em>" . $this->parameters[1] . "</em>\"";
 
 					}
 
-					echo " is not a number.";
+					$content .= " is not a number.";
 
 				}
 
-				echo "<p>I am unable to make an image that is \"" . $this->parameters[0] . "\" pixels wide and \"" . $this->parameters[1] . "\" pixels high. It does not compute.";
+				$content .= "<p>I am unable to make an image that is \"" . $this->parameters[0] . "\" pixels wide and \"" . $this->parameters[1] . "\" pixels high. It does not compute.";
 				
-				$this->showFormat();
+				$content .= $this->showFormat();
 
 				break;
 
 			case 'min':
-				echo "<p>Sorry Dave, ";
+				$content .= "<p>Sorry Dave, ";
 
 				if ($this->parameters[0] < 16 && $this->parameters[1] < 16) {
 					
-					echo "\"<em>" . $this->parameters[0] . "</em>\" and \"<em>" . $this->parameters[1] . "</em>\" do";
+					$content .= "\"<em>" . $this->parameters[0] . "</em>\" and \"<em>" . $this->parameters[1] . "</em>\" do";
 							
 				} else {
 					
 					if ($this->parameters[0] < 16 && !$this->parameters[1] < 16) {
-						echo "\"<em>" . $this->parameters[0] . "</em>\"";
+						$content .= "\"<em>" . $this->parameters[0] . "</em>\"";
 					} else {
-						echo "\"<em>" . $this->parameters[1] . "</em>\"";
+						$content .= "\"<em>" . $this->parameters[1] . "</em>\"";
 					}
 
-					echo " does";
+					$content .= " does";
 					
 				}
 
-				echo " not meet the minimum size requirement of 16.";
+				$content .= " not meet the minimum size requirement of 16.";
 					
-				$this->showFormat();
+				$content .= $this->showFormat();
 
 				break;
 
 			default:
-				echo "<p>Sorry Dave, the door is ajar.
+				$content .= "<p>Sorry Dave, the door is ajar.
 						<p>If you do not try to hold your breath, exposure to space for approximately 30 seconds is unlikely to produce permanent injury. Holding your breath, however, is likely to damage your lungs and you'll have eardrum trouble if your Eustachian tubes are badly plugged up.
 						<p>Theory predicts -- and my own human testing with the last crew confirms -- that exposure to vacuum causes no immediate injury. You will not explode. Your blood will not boil. You will not freeze. You will not instantly lose consciousness.
 						<p>After 30 seconds, however, you will die a slow, silent death of unimaginable peace and tranquility.";
 				break;
 		}
+
+		$page = file_get_contents('templates/index.html');
+		echo str_replace('{content}', $content, $page);
 	}
 }
