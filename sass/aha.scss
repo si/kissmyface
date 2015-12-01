@@ -1,0 +1,17 @@
+body {
+    background: #0CC;
+    color: #FFF;
+    text-align: center;
+    font-family: 'MuseoSans-500', sans-serif;
+}
+
+h1 {
+    margin: 4rem;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px rgba(#000,0.3); 
+    transform: rotate(-5deg);
+}
+
+img {
+    max-width: 100%;
+}
