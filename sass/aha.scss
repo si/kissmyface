@@ -10,8 +10,21 @@ h1 {
     text-transform: uppercase;
     text-shadow: 0 0 5px rgba(#000,0.3); 
     transform: rotate(-5deg);
+    animation: pop 0.3s ease 1s;
 }
 
 img {
     max-width: 100%;
+}
+
+@keyframes pop {
+    from {
+        transform: rotate(-5deg) scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    to {
+        transform: rotate(-5deg) scale(1);
+    }
 }
